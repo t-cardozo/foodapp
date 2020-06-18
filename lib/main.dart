@@ -36,15 +36,25 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              mainMenuButton(),
-              pageTitle(context),
-              categoryScrollList(),
-              SearchFoodBox()
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                mainMenuButton(),
+                pageTitle(context),
+                categoryScrollList(),
+                SearchFoodBox(),
+                Container(
+                  height: 300,
+                  width: 270,
+                  child: Stack(
+                    children: <Widget>[],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -62,14 +72,36 @@ class SearchFoodBox extends StatelessWidget {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      height: 40,
+      padding: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
+      height: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(25),
         border: Border.all(color: kBorderColor),
       ),
-      child: SvgPicture.asset("assets/icons/search.svg"),
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            height: 20,
+            child: SvgPicture.asset("assets/icons/search.svg"),
+          ),
+          searchTextField()
+        ],
+      ),
+    );
+  }
+
+  Widget searchTextField() {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 5, top: 18),
+        child: TextField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "Search",
+          ),
+        ),
+      ),
     );
   }
 }
