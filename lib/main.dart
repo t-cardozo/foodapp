@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodapp/foodScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -60,7 +61,9 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                mainMenuButton(),
+                TopNavButtons(
+                  image: "menu.svg",
+                ),
                 pageTitle(context),
                 categoryScrollList(),
                 SearchFoodBox(),
@@ -113,106 +116,116 @@ class FoodCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 10),
-      height: 250,
-      width: 185,
-      child: Stack(
-        children: <Widget>[
-          //Big light background
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              height: 240,
-              width: 175,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(34),
-                  color: kPrimaryColor.withOpacity(.06)),
-            ),
-          ),
-
-          //Rounded Background
-          Positioned(
-            left: 5,
-            top: 5,
-            child: Container(
-              height: 120.5,
-              width: 120.5,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: kPrimaryColor.withOpacity(.15),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => FoodScreen()));
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 10),
+        height: 250,
+        width: 185,
+        child: Stack(
+          children: <Widget>[
+            //Big light background
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                height: 240,
+                width: 175,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(34),
+                    color: kPrimaryColor.withOpacity(.06)),
               ),
             ),
-          ),
 
-          //Food image
-          Positioned(
-            top: 0,
-            left: -30,
-            child: Container(
-              height: 120,
-              width: 180,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/" + image)),
+            //Rounded Background
+            Positioned(
+              left: 5,
+              top: 5,
+              child: Container(
+                height: 120.5,
+                width: 120.5,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kPrimaryColor.withOpacity(.15),
+                ),
               ),
             ),
-          ),
 
-          //price
-          Positioned(
-            right: 20,
-            top: 50,
-            child: Text("\$" + price.toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: kPrimaryColor)),
-          ),
-          Positioned(
-            top: 125,
-            left: 20,
-            child: Container(
-              width: 150,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyText1,
+            //Food image
+            Positioned(
+              top: 0,
+              left: -30,
+              child: Hero(
+                tag: image,
+                child: Container(
+                  height: 120,
+                  width: 180,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/" + image)),
                   ),
-                  Text(
-                    "With red tomato",
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        .copyWith(color: kTextColor.withOpacity(.4)),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "Conrary to popular belief, Lorem ipsum is not simply random text. It has",
-                    maxLines: 4,
-                    style: Theme.of(context).textTheme.caption.copyWith(
-                        color: kTextColor.withOpacity(.7), fontSize: 10),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "420Kcal",
-                    style: Theme.of(context).textTheme.caption.copyWith(
-                        color: kTextColor.withOpacity(.7),
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+                ),
               ),
             ),
-          )
-        ],
+
+            //price
+            Positioned(
+              right: 20,
+              top: 50,
+              child: Text("\$" + price.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: kPrimaryColor)),
+            ),
+            Positioned(
+              top: 125,
+              left: 20,
+              child: Container(
+                width: 150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Text(
+                      "With red tomato",
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(color: kTextColor.withOpacity(.4)),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Conrary to popular belief, Lorem ipsum is not simply random text. It has",
+                      maxLines: 4,
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                          color: kTextColor.withOpacity(.7), fontSize: 10),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "420Kcal",
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                          color: kTextColor.withOpacity(.7),
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -310,15 +323,24 @@ Widget pageTitle(BuildContext context) {
   );
 }
 
-Widget mainMenuButton() {
-  return Padding(
-    padding: const EdgeInsets.only(right: 10, top: 5),
-    child: Align(
-      alignment: Alignment.topRight,
-      child: SvgPicture.asset(
-        "assets/icons/menu.svg",
-        height: 11,
+class TopNavButtons extends StatelessWidget {
+  final String image;
+  const TopNavButtons({
+    this.image,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10, top: 5),
+      child: Align(
+        alignment: Alignment.topRight,
+        child: SvgPicture.asset(
+          "assets/icons/$image",
+          height: 11,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
